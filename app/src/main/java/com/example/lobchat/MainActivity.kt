@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import android.widget.EditText
 import android.widget.Button
-import android.view.View
-import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,77 +65,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 确保链接在 WebView 内部打开，而不是在默认浏览器中打开
-        webView.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                Toast.makeText(this@MainActivity, "Network error, please try again later.", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                // 注入 JavaScript 来禁用 PWA 安装提示
-                view?.evaluateJavascript(
-                    """
-                    window.addEventListener('beforeinstallprompt', function(e) {
-                        e.preventDefault();
-                        console.log('Install prompt blocked by WebView');
-                    });
-                    """.trimIndent(), null
-                )
-                // 隐藏输入框和按钮
-                urlInput.visibility = View.GONE
-                loadUrlButton.visibility = View.GONE
-                webView.visibility = View.VISIBLE
-            }
-        }
-
-        // 设置 WebChromeClient 以处理文件选择和 JavaScript 错误
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onShowFileChooser(
-                webView: WebView?,
-                filePathCallback: ValueCallback<Array<Uri>>,
-                fileChooserParams: FileChooserParams?
-            ): Boolean {
-                this@MainActivity.filePathCallback?.onReceiveValue(null)
-                this@MainActivity.filePathCallback = filePathCallback
-
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-
-                // 使用新的 ActivityResultLauncher 启动文件选择器
-                fileChooserLauncher.launch(Intent.createChooser(intent, "Select Picture"))
-                return true
-            }
-
-            override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                Log.e("WebViewConsole", "JavaScript Error: ${consoleMessage?.message()} -- From line ${consoleMessage?.lineNumber()} of ${consoleMessage?.sourceId()}")
-                return true
-            }
-        }
-
         // 点击按钮后加载用户输入的 URL
         loadUrlButton.setOnClickListener {
-            var url = urlInput.text.toString().trim()
+            val url = urlInput.text.toString().trim()
+            val urlPattern = Regex("^(?:(http|https):\\/\\/)?((?:[\\w-]+\\.)+[a-z0-9]+)((?:\\/[^/?#]*)+)?(\\?[^#]+)?(#.+)?$")
+
             if (url.isNotEmpty()) {
                 // 确保 URL 包含 http 或 https
-                if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                    url = "https://$url"
+                val formattedUrl = if (!urlPattern.matches(url)) {
+                    // 如果 URL 格式不正确，则提示用户
+                    Toast.makeText(this, "请输入正确的网站地址", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener // 结束函数
+                } else {
+                    // 确保 URL 包含 http 或 https
+                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                        "https://$url"
+                    } else {
+                        url
+                    }
                 }
 
                 // 保存用户输入的 URL 到 SharedPreferences
                 with(sharedPreferences.edit()) {
-                    putString(KEY_SAVED_URL, url)
+                    putString(KEY_SAVED_URL, formattedUrl)
                     apply()
                 }
 
-                // 加载用户输入的 URL
-                webView.loadUrl(url)
+                // 启动 WebViewActivity
+                val intent = Intent(this, WebViewActivity::class.java)
+                intent.putExtra("URL", formattedUrl)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Please enter a valid URL", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-    // 此时不再需要权限检查方法
 }
