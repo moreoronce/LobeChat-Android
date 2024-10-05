@@ -6,10 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -30,16 +32,7 @@ class WebViewActivity : AppCompatActivity() {
 
         // 初始化文件选择器启动器
         fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val resultUri = result.data?.data
-                if (filePathCallback != null) {
-                    filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
-                    filePathCallback = null
-                }
-            } else {
-                filePathCallback?.onReceiveValue(null)
-                filePathCallback = null
-            }
+            handleFileChooserResult(result)
         }
 
         // 获取传递的 URL
@@ -49,6 +42,18 @@ class WebViewActivity : AppCompatActivity() {
         } else {
             showSnackbar("No URL provided")
         }
+
+        // 处理返回键事件
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (webView.canGoBack()) {
+                    webView.goBack()
+                } else {
+                    isEnabled = false // Disable the callback so that the default behavior can occur
+                    finish() // Close the activity when there's no page to go back to
+                }
+            }
+        })
     }
 
     private fun setupWebView() {
@@ -63,8 +68,18 @@ class WebViewActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                // 注入 JavaScript 来禁用 PWA 安装提示
                 injectJavaScript(view)
+            }
+
+            private fun injectJavaScript(view: WebView?) {
+                view?.evaluateJavascript(
+                    """
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                console.log('Install prompt blocked by WebView');
+            });
+            """.trimIndent(), null
+                )
             }
         }
 
@@ -87,17 +102,6 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun injectJavaScript(view: WebView?) {
-        view?.evaluateJavascript(
-            """
-            window.addEventListener('beforeinstallprompt', function(e) {
-                e.preventDefault();
-                console.log('Install prompt blocked by WebView');
-            });
-            """.trimIndent(), null
-        )
-    }
-
     private fun launchFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -106,15 +110,18 @@ class WebViewActivity : AppCompatActivity() {
         fileChooserLauncher.launch(Intent.createChooser(intent, "Select Picture"))
     }
 
-    private fun showSnackbar(message: String) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+    private fun handleFileChooserResult(result: ActivityResult) {
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val resultUri = result.data?.data
+            filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
+            filePathCallback = null
+        } else {
+            filePathCallback?.onReceiveValue(null)
+            filePathCallback = null
+        }
     }
 
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
-        }
+    private fun showSnackbar(message: String) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
     }
 }
