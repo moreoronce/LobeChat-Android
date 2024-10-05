@@ -60,6 +60,7 @@ class WebViewActivity : AppCompatActivity() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
+        webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 
         webView.webViewClient = object : WebViewClient() {
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
@@ -69,17 +70,6 @@ class WebViewActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 injectJavaScript(view)
-            }
-
-            private fun injectJavaScript(view: WebView?) {
-                view?.evaluateJavascript(
-                    """
-            window.addEventListener('beforeinstallprompt', function(e) {
-                e.preventDefault();
-                console.log('Install prompt blocked by WebView');
-            });
-            """.trimIndent(), null
-                )
             }
         }
 
@@ -102,6 +92,16 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
+    private fun injectJavaScript(view: WebView?) {
+        view?.evaluateJavascript(
+            """
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                console.log('Install prompt blocked by WebView');
+            });
+            """.trimIndent(), null
+        )
+    }
     private fun launchFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
