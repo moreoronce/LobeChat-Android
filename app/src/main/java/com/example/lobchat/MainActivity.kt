@@ -3,6 +3,7 @@ package com.example.lobchat
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.webkit.*
 import androidx.activity.result.ActivityResultLauncher
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         loadUrlButton = findViewById(R.id.loadUrlButton)
 
         // 检查并请求存储权限
-        checkStoragePermission()
+        if (!hasStoragePermission()) {
+            requestStoragePermission()
+        }
 
         // 设置状态栏为透明，使系统自动使用默认的颜色
         window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
@@ -130,27 +133,51 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 方法：检查存储权限
-    private fun checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // 显示权限请求解释
-                AlertDialog.Builder(this)
-                    .setTitle("Permission Required")
-                    .setMessage("This app requires access to your storage to select images. Please grant the permission.")
-                    .setPositiveButton("OK") { _, _ ->
-                        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+    // 方法：检查是否具有存储权限
+    private fun hasStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    // 方法：请求存储权限
+    private fun requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_MEDIA_IMAGES)) {
+                showPermissionRationale(android.Manifest.permission.READ_MEDIA_IMAGES)
             } else {
-                // 直接请求权限
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES), 1)
+            }
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                showPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            } else {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
             }
         }
+    }
+
+    // 方法：显示权限请求解释
+    private fun showPermissionRationale(permission: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Permission Required")
+            .setMessage("This app requires access to your storage to select images. Please grant the permission.")
+            .setPositiveButton("OK") { _, _ ->
+                ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     // 处理权限请求结果
