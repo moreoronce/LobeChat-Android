@@ -3,9 +3,8 @@ name: Android Release Build and Publish
 on:
   push:
     branches:
-      - main
-workflow_dispatch:  # 手动触发支持
-
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
