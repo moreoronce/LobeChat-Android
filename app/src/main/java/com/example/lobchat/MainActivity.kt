@@ -1,34 +1,33 @@
 package com.example.lobchat
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.webkit.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.widget.Toast
 import android.widget.EditText
 import android.widget.Button
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import android.util.Log
-import android.provider.Settings
-import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
-    private lateinit var urlInputLayout: ConstraintLayout
-    private lateinit var urlInput: EditText
-    private lateinit var loadUrlButton: Button
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var urlInput: EditText
+    private lateinit var loadUrlButton: Button
+
+    companion object {
+        const val SHARED_PREFS_NAME = "lobchat_prefs"
+        const val KEY_SAVED_URL = "saved_url"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +35,14 @@ class MainActivity : AppCompatActivity() {
 
         // 初始化视图组件
         webView = findViewById(R.id.webView)
-        urlInputLayout = findViewById(R.id.urlInputLayout)
         urlInput = findViewById(R.id.urlInput)
         loadUrlButton = findViewById(R.id.loadUrlButton)
 
-        // 检查并请求存储权限
-        if (!hasStoragePermission()) {
-            requestStoragePermission()
+        // 从 SharedPreferences 加载上次保存的 URL
+        val sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val savedUrl = sharedPreferences.getString(KEY_SAVED_URL, "")
+        if (!savedUrl.isNullOrEmpty()) {
+            urlInput.setText(savedUrl)
         }
 
         // 设置状态栏为透明，使系统自动使用默认的颜色
@@ -84,6 +84,10 @@ class MainActivity : AppCompatActivity() {
                     });
                     """.trimIndent(), null
                 )
+                // 隐藏输入框和按钮
+                urlInput.visibility = View.GONE
+                loadUrlButton.visibility = View.GONE
+                webView.visibility = View.VISIBLE
             }
         }
 
@@ -121,89 +125,19 @@ class MainActivity : AppCompatActivity() {
                     url = "https://$url"
                 }
 
+                // 保存用户输入的 URL 到 SharedPreferences
+                with(sharedPreferences.edit()) {
+                    putString(KEY_SAVED_URL, url)
+                    apply()
+                }
+
                 // 加载用户输入的 URL
                 webView.loadUrl(url)
-
-                // 切换视图：隐藏 URL 输入部分并显示 WebView
-                urlInputLayout.visibility = View.GONE
-                webView.visibility = View.VISIBLE
             } else {
                 Toast.makeText(this, "Please enter a valid URL", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // 方法：检查是否具有存储权限
-    private fun hasStoragePermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_MEDIA_IMAGES
-            ) == PackageManager.PERMISSION_GRANTED
-        } else {
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
-    // 方法：请求存储权限
-    private fun requestStoragePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_MEDIA_IMAGES)) {
-                showPermissionRationale(android.Manifest.permission.READ_MEDIA_IMAGES)
-            } else {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES), 1)
-            }
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            } else {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-            }
-        }
-    }
-
-    // 方法：显示权限请求解释
-    private fun showPermissionRationale(permission: String) {
-        AlertDialog.Builder(this)
-            .setTitle("Permission Required")
-            .setMessage("This app requires access to your storage to select images. Please grant the permission.")
-            .setPositiveButton("OK") { _, _ ->
-                ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
-    }
-
-    // 处理权限请求结果
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, "Read permission granted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Read permission denied", Toast.LENGTH_SHORT).show()
-                // 引导用户前往设置手动开启权限
-                AlertDialog.Builder(this)
-                    .setTitle("Permission Denied")
-                    .setMessage("Storage permission is required for this app. Please allow it from settings.")
-                    .setPositiveButton("Settings") { _, _ ->
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        val uri = Uri.fromParts("package", packageName, null)
-                        intent.data = uri
-                        startActivity(intent)
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-            }
-        }
-    }
+    // 此时不再需要权限检查方法
 }
