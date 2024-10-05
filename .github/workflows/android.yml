@@ -1,4 +1,4 @@
-name: lobe-chat-android
+name: Android CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
+
 jobs:
   build:
     name: Build Android App
@@ -26,7 +26,11 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
-    # Step 3: Cache Gradle dependencies
+    # Step 3: Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    # Step 4: Cache Gradle dependencies
     - name: Cache Gradle packages
       uses: actions/cache@v3
       with:
@@ -37,15 +41,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    # Step 4: Download Dependencies (Gradle Wrapper)
+    # Step 5: Download Dependencies (Gradle Wrapper)
     - name: Download Dependencies
       run: ./gradlew --no-daemon clean build
 
-    # Step 5: Build APK
+    # Step 6: Build APK
     - name: Build Debug APK
       run: ./gradlew --no-daemon assembleDebug
 
-    # Step 6: Upload artifact (optional)
+    # Step 7: Upload artifact (optional)
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
