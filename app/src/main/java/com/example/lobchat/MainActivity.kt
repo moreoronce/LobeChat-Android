@@ -1,13 +1,9 @@
 package com.example.lobchat
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.webkit.*
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import android.widget.EditText
@@ -16,9 +12,6 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
-    private var filePathCallback: ValueCallback<Array<Uri>>? = null
-    private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
-
     private lateinit var urlInput: EditText
     private lateinit var loadUrlButton: Button
 
@@ -51,19 +44,19 @@ class MainActivity : AppCompatActivity() {
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
 
-        // 初始化文件选择器启动器
-        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-                val resultUri = result.data?.data
-                if (filePathCallback != null) {
-                    filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
-                    filePathCallback = null
-                }
-            } else {
-                filePathCallback?.onReceiveValue(null)
-                filePathCallback = null
-            }
-        }
+//        // 初始化文件选择器启动器
+//        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+//                val resultUri = result.data?.data
+//                if (filePathCallback != null) {
+//                    filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
+//                    filePathCallback = null
+//                }
+//            } else {
+//                filePathCallback?.onReceiveValue(null)
+//                filePathCallback = null
+//            }
+//        }
 
         // 点击按钮后加载用户输入的 URL
         loadUrlButton.setOnClickListener {
