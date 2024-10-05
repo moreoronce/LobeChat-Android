@@ -1,11 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/urlInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your server URL"
+        android:inputType="textUri"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentTop="true"/>
+
+    <Button
+        android:id="@+id/loadUrlButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load URL"
+        android:layout_below="@id/urlInput"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:layout_below="@id/loadUrlButton"/>
 </RelativeLayout>

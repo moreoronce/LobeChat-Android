@@ -12,31 +12,39 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.widget.Toast
+import android.widget.EditText
+import android.widget.Button
+import android.view.View
+import androidx.appcompat.app.AlertDialog
+import android.util.Log
+import android.provider.Settings
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
-
-    // 用于替代 startActivityForResult 的新文件选择器启动器
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var urlInput: EditText
+    private lateinit var loadUrlButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 检查并请求读取权限
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-        }
+        // 初始化视图组件
+        webView = findViewById(R.id.webview)
+        urlInput = findViewById(R.id.urlInput)
+        loadUrlButton = findViewById(R.id.loadUrlButton)
+
+        // 检查并请求存储权限
+        checkStoragePermission()
 
         // 设置状态栏为透明，使系统自动使用默认的颜色
         window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
 
-        // 初始化 WebView
-        webView = findViewById(R.id.webview)
-
-        // 启用 JavaScript
+        // 初始化 WebView 设置
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
@@ -72,17 +80,19 @@ class MainActivity : AppCompatActivity() {
                     });
                     """.trimIndent(), null
                 )
+                // 隐藏输入框和按钮
+                urlInput.visibility = View.GONE
+                loadUrlButton.visibility = View.GONE
             }
         }
 
-        // 设置 WebChromeClient 以处理文件选择
+        // 设置 WebChromeClient 以处理文件选择和 JavaScript 错误
         webView.webChromeClient = object : WebChromeClient() {
             override fun onShowFileChooser(
                 webView: WebView?,
                 filePathCallback: ValueCallback<Array<Uri>>,
                 fileChooserParams: FileChooserParams?
             ): Boolean {
-                // 处理新的文件选择请求
                 this@MainActivity.filePathCallback?.onReceiveValue(null)
                 this@MainActivity.filePathCallback = filePathCallback
 
@@ -94,12 +104,54 @@ class MainActivity : AppCompatActivity() {
                 fileChooserLauncher.launch(Intent.createChooser(intent, "Select Picture"))
                 return true
             }
+
+            override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                Log.e("WebViewConsole", "JavaScript Error: ${consoleMessage?.message()} -- From line ${consoleMessage?.lineNumber()} of ${consoleMessage?.sourceId()}")
+                return true
+            }
         }
 
-        // 加载您的网站
-        webView.loadUrl("https://chat.dolingou.com") // 替换为您的 URL
+        // 点击按钮后加载用户输入的 URL
+        loadUrlButton.setOnClickListener {
+            var url = urlInput.text.toString().trim()
+            if (url.isNotEmpty()) {
+                // 确保 URL 包含 http 或 https
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "https://$url"
+                }
+
+                // 加载用户输入的 URL
+                webView.loadUrl(url)
+            } else {
+                Toast.makeText(this, "Please enter a valid URL", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
+    // 方法：检查存储权限
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // 显示权限请求解释
+                AlertDialog.Builder(this)
+                    .setTitle("Permission Required")
+                    .setMessage("This app requires access to your storage to select images. Please grant the permission.")
+                    .setPositiveButton("OK") { _, _ ->
+                        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
+            } else {
+                // 直接请求权限
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            }
+        }
+    }
+
+    // 处理权限请求结果
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
@@ -107,6 +159,21 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Read permission granted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Read permission denied", Toast.LENGTH_SHORT).show()
+                // 引导用户前往设置手动开启权限
+                AlertDialog.Builder(this)
+                    .setTitle("Permission Denied")
+                    .setMessage("Storage permission is required for this app. Please allow it from settings.")
+                    .setPositiveButton("Settings") { _, _ ->
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        val uri = Uri.fromParts("package", packageName, null)
+                        intent.data = uri
+                        startActivity(intent)
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
             }
         }
     }
