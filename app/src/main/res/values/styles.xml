@@ -1,0 +1,7 @@
+<resources>
+    <!-- 使主题继承自 Theme.AppCompat.DayNight.NoActionBar，以获得系统默认的状态栏 -->
+    <style name="Theme.WebViewApp" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- 使用系统默认的颜色 -->
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item> <!-- 让状态栏使用主题色 -->
+    </style>
+</resources>
