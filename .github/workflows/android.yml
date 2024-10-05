@@ -38,15 +38,15 @@ jobs:
           name: lobe-chat-android-beta.apk
           path: app/build/outputs/apk/release/lobe-chat-android-beta.apk
 
-      # Step 6: Create a GitHub Release and upload APK
+      # Step 6: Create a GitHub Release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.sha }}  # 使用提交 SHA 或者你可以手动指定一个版本标签
+          release_name: Release-${{ github.sha }}
           draft: false
           prerelease: false
 
@@ -54,9 +54,9 @@ jobs:
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/release/app-release.apk
-          asset_name: app-release.apk
+          asset_path: app/build/outputs/apk/release/lobe-chat-android-beta.apk
+          asset_name: lobe-chat-android-beta.apk
           asset_content_type: application/vnd.android.package-archive
