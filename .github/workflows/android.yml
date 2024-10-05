@@ -2,8 +2,8 @@ name: Android Release Build and Publish
 
 on:
   push:
-    tags:
-      - 'v*'  # 当推送一个新的版本标签（例如 v1.0.0）时触发
+    branches:
+      - main
 
 jobs:
   build:
