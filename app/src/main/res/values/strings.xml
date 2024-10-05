@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">lobchat</string>
+    <string name="enter_your_server_url">Enter your server URL</string>
 </resources>

@@ -1,29 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/urlInput"
+    <!-- URL 输入部分，包括 Logo、URL 输入框和提交按钮 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/urlInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your server URL"
-        android:inputType="textUri"
-        android:padding="16dp"
-        android:layout_margin="16dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/loadUrlButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Load URL"
-        android:layout_below="@id/urlInput"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"/>
+        <!-- Logo 图片 -->
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="App Logo"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- 输入框，用于输入 URL -->
+        <EditText
+            android:id="@+id/urlInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/search_box_background"
+            android:hint="Enter your server URL"
+            android:inputType="textUri"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appLogo" />
+
+        <!-- 提交按钮，用于加载用户输入的 URL -->
+        <Button
+            android:id="@+id/loadUrlButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            app:layout_constraintTop_toBottomOf="@id/urlInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textColor="#fff"
+            android:background="@drawable/button_rounded_background"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- WebView 控件，用于显示加载的网页 -->
     <WebView
-        android:id="@+id/webview"
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/loadUrlButton"/>
-</RelativeLayout>
+        android:visibility="gone"/> <!-- 默认隐藏 WebView，直到用户点击提交按钮 -->
+
+</FrameLayout>

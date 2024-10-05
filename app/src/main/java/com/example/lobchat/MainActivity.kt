@@ -18,23 +18,24 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.provider.Settings
-
+import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
-    private var filePathCallback: ValueCallback<Array<Uri>>? = null
-    private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
-
+    private lateinit var urlInputLayout: ConstraintLayout
     private lateinit var urlInput: EditText
     private lateinit var loadUrlButton: Button
+    private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // 初始化视图组件
-        webView = findViewById(R.id.webview)
+        webView = findViewById(R.id.webView)
+        urlInputLayout = findViewById(R.id.urlInputLayout)
         urlInput = findViewById(R.id.urlInput)
         loadUrlButton = findViewById(R.id.loadUrlButton)
 
@@ -80,9 +81,6 @@ class MainActivity : AppCompatActivity() {
                     });
                     """.trimIndent(), null
                 )
-                // 隐藏输入框和按钮
-                urlInput.visibility = View.GONE
-                loadUrlButton.visibility = View.GONE
             }
         }
 
@@ -122,6 +120,10 @@ class MainActivity : AppCompatActivity() {
 
                 // 加载用户输入的 URL
                 webView.loadUrl(url)
+
+                // 切换视图：隐藏 URL 输入部分并显示 WebView
+                urlInputLayout.visibility = View.GONE
+                webView.visibility = View.VISIBLE
             } else {
                 Toast.makeText(this, "Please enter a valid URL", Toast.LENGTH_SHORT).show()
             }
