@@ -1,5 +1,6 @@
 package com.example.lobchat
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 
 class WebViewActivity : AppCompatActivity() {
@@ -22,6 +24,23 @@ class WebViewActivity : AppCompatActivity() {
         // 初始化 WebView
         webView = findViewById(R.id.webView)
         setupWebView()
+
+        // 设置状态栏为透明，使系统自动使用默认的颜色
+        window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
+
+        // 初始化文件选择器启动器
+        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                val resultUri = result.data?.data
+                if (filePathCallback != null) {
+                    filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
+                    filePathCallback = null
+                }
+            } else {
+                filePathCallback?.onReceiveValue(null)
+                filePathCallback = null
+            }
+        }
 
         // 获取传递的 URL
         val url = intent.getStringExtra("URL") // 确保这个 key 和 MainActivity 一致
