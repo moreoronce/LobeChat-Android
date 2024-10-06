@@ -3,11 +3,12 @@ package com.example.lobchat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.webkit.*
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.Toast
-import android.widget.EditText
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,20 +44,6 @@ class MainActivity : AppCompatActivity() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
-
-//        // 初始化文件选择器启动器
-//        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-//                val resultUri = result.data?.data
-//                if (filePathCallback != null) {
-//                    filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
-//                    filePathCallback = null
-//                }
-//            } else {
-//                filePathCallback?.onReceiveValue(null)
-//                filePathCallback = null
-//            }
-//        }
 
         // 点击按钮后加载用户输入的 URL
         loadUrlButton.setOnClickListener {
