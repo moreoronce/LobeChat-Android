@@ -59,7 +59,8 @@ class WebViewActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 // 当 URL 变化时重置 isFinalUrlLoaded 标志
                 isFinalUrlLoaded = false
-                return false // 返回 false 表示允许 WebView 处理请求
+                // 返回 false 表示允许 WebView 处理请求
+                return false
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
@@ -75,7 +76,8 @@ class WebViewActivity : AppCompatActivity() {
                         """.trimIndent()
                     ) { result ->
                         if (result == "true") {
-                            isLobeChatVerified = true // 验证通过，不再继续验证
+                            // 验证通过，不再继续验证
+                            isLobeChatVerified = true
                             Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@WebViewActivity, "The webpage does not contain the required LobeChat text in the header.", Toast.LENGTH_LONG).show()
