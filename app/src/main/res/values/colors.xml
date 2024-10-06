@@ -1,13 +1,692 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#0D0D0D</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="grey">#F4F4F4</color>
-    <color name="grey_light">#f8f8f8</color>
-    <color name="border">#9b9b9b</color>
+    <!-- Blue Colors -->
+    <color name="blue_dark_0">#000506</color>
+    <color name="blue_dark_1">#002126</color>
+    <color name="blue_dark_2">#00363f</color>
+    <color name="blue_dark_3">#004e59</color>
+    <color name="blue_dark_4">#006675</color>
+    <color name="blue_dark_5">#008093</color>
+    <color name="blue_dark_6">#159ab0</color>
+    <color name="blue_dark_7">#47b3ca</color>
+    <color name="blue_dark_8">#6acde4</color>
+    <color name="blue_dark_9">#8ae8ff</color>
+    <color name="blue_dark_10">#b8f0ff</color>
+    <color name="blue_dark_11">#def7ff</color>
+    <color name="blue_dark_12">#ffffff</color>
+
+    <color name="blue_darkA_0">rgba(0, 167, 200, 0.03)</color>
+    <color name="blue_darkA_1">rgba(0, 220, 253, 0.15)</color>
+    <color name="blue_darkA_2">rgba(0, 216, 252, 0.25)</color>
+    <color name="blue_darkA_3">rgba(0, 223, 254, 0.35)</color>
+    <color name="blue_darkA_4">rgba(0, 222, 254, 0.46)</color>
+    <color name="blue_darkA_5">rgba(0, 221, 253, 0.58)</color>
+    <color name="blue_darkA_6">rgba(30, 223, 255, 0.69)</color>
+    <color name="blue_darkA_7">rgba(89, 224, 252, 0.8)</color>
+    <color name="blue_darkA_8">rgba(118, 228, 253, 0.9)</color>
+    <color name="blue_darkA_9">#8ae8ff</color>
+    <color name="blue_darkA_10">#b8f0ff</color>
+    <color name="blue_darkA_11">#def7ff</color>
+    <color name="blue_darkA_12">#ffffff</color>
+
+    <!-- Black and White Colors -->
+    <color name="bnw_dark_0">#000000</color>
+    <color name="bnw_dark_1">#111111</color>
+    <color name="bnw_dark_2">#333333</color>
+    <color name="bnw_dark_3">#555555</color>
+    <color name="bnw_dark_4">#666666</color>
+    <color name="bnw_dark_5">#888888</color>
+    <color name="bnw_dark_6">#aaaaaa</color>
+    <color name="bnw_dark_7">#cccccc</color>
+    <color name="bnw_dark_8">#dddddd</color>
+    <color name="bnw_dark_9">#eeeeee</color>
+    <color name="bnw_dark_10">#ffffff</color>
+    <color name="bnw_dark_11">#ffffff</color>
+    <color name="bnw_dark_12">#ffffff</color>
+
+    <color name="bnw_darkA_0">rgba(255, 255, 255, 0.02)</color>
+    <color name="bnw_darkA_1">rgba(255, 255, 255, 0.08)</color>
+    <color name="bnw_darkA_2">rgba(255, 255, 255, 0.16)</color>
+    <color name="bnw_darkA_3">rgba(255, 255, 255, 0.22)</color>
+    <color name="bnw_darkA_4">rgba(255, 255, 255, 0.36)</color>
+    <color name="bnw_darkA_5">rgba(255, 255, 255, 0.48)</color>
+    <color name="bnw_darkA_6">rgba(255, 255, 255, 0.6)</color>
+    <color name="bnw_darkA_7">rgba(255, 255, 255, 0.72)</color>
+    <color name="bnw_darkA_8">rgba(255, 255, 255, 0.84)</color>
+    <color name="bnw_darkA_9">rgba(255, 255, 255, 0.88)</color>
+    <color name="bnw_darkA_10">rgba(255, 255, 255, 0.92)</color>
+    <color name="bnw_darkA_11">rgba(255, 255, 255, 0.96)</color>
+    <color name="bnw_darkA_12">rgba(255, 255, 255, 0.98)</color>
+
+    <!-- Cyan Colors -->
+    <color name="cyan_dark_0">#000503</color>
+    <color name="cyan_dark_1">#00221c</color>
+    <color name="cyan_dark_2">#003930</color>
+    <color name="cyan_dark_3">#005245</color>
+    <color name="cyan_dark_4">#006c5b</color>
+    <color name="cyan_dark_5">#008772</color>
+    <color name="cyan_dark_6">#2fa28a</color>
+    <color name="cyan_dark_7">#55bca4</color>
+    <color name="cyan_dark_8">#75d7be</color>
+    <color name="cyan_dark_9">#95f3d9</color>
+    <color name="cyan_dark_10">#bdf7e4</color>
+    <color name="cyan_dark_11">#dffcf0</color>
+    <color name="cyan_dark_12">#ffffff</color>
+
+    <color name="cyan_darkA_0">rgba(0, 250, 150, 0.02)</color>
+    <color name="cyan_darkA_1">rgba(0, 243, 200, 0.14)</color>
+    <color name="cyan_darkA_2">rgba(0, 248, 209, 0.23)</color>
+    <color name="cyan_darkA_3">rgba(0, 248, 209, 0.33)</color>
+    <color name="cyan_darkA_4">rgba(0, 251, 212, 0.43)</color>
+    <color name="cyan_darkA_5">rgba(0, 255, 215, 0.53)</color>
+    <color name="cyan_darkA_6">rgba(73, 253, 216, 0.64)</color>
+    <color name="cyan_darkA_7">rgba(115, 254, 222, 0.74)</color>
+    <color name="cyan_darkA_8">rgba(138, 253, 224, 0.85)</color>
+    <color name="cyan_darkA_9">rgba(155, 253, 226, 0.96)</color>
+    <color name="cyan_darkA_10">rgba(195, 255, 235, 0.97)</color>
+    <color name="cyan_darkA_11">rgba(225, 255, 242, 0.99)</color>
+    <color name="cyan_darkA_12">#ffffff</color>
+
+    <!-- Geek Blue Colors -->
+    <color name="geekblue_dark_0">#000216</color>
+    <color name="geekblue_dark_1">#001343</color>
+    <color name="geekblue_dark_2">#00225c</color>
+    <color name="geekblue_dark_3">#003176</color>
+    <color name="geekblue_dark_4">#00418f</color>
+    <color name="geekblue_dark_5">#0052a8</color>
+    <color name="geekblue_dark_6">#0264c1</color>
+    <color name="geekblue_dark_7">#1877d5</color>
+    <color name="geekblue_dark_8">#288aea</color>
+    <color name="geekblue_dark_9">#369eff</color>
+    <color name="geekblue_dark_10">#88bffb</color>
+    <color name="geekblue_dark_11">#c5dffd</color>
+    <color name="geekblue_dark_12">#ffffff</color>
+
+    <color name="geekblue_darkA_0">rgba(0, 22, 244, 0.09)</color>
+    <color name="geekblue_darkA_1">rgba(0, 70, 248, 0.27)</color>
+    <color name="geekblue_darkA_2">rgba(0, 92, 249, 0.37)</color>
+    <color name="geekblue_darkA_3">rgba(0, 104, 251, 0.47)</color>
+    <color name="geekblue_darkA_4">rgba(0, 116, 255, 0.56)</color>
+    <color name="geekblue_darkA_5">rgba(0, 124, 255, 0.66)</color>
+    <color name="geekblue_darkA_6">rgba(3, 132, 254, 0.76)</color>
+    <color name="geekblue_darkA_7">rgba(29, 142, 254, 0.84)</color>
+    <color name="geekblue_darkA_8">rgba(43, 150, 254, 0.92)</color>
+    <color name="geekblue_darkA_9">#369eff</color>
+    <color name="geekblue_darkA_10">rgba(137, 193, 254, 0.99)</color>
+    <color name="geekblue_darkA_11">#c5dffd</color>
+    <color name="geekblue_darkA_12">#ffffff</color>
+
+    <!-- Gold Colors -->
+    <color name="gold_dark_0">#070300</color>
+    <color name="gold_dark_1">#271a00</color>
+    <color name="gold_dark_2">#3f2c00</color>
+    <color name="gold_dark_3">#593f00</color>
+    <color name="gold_dark_4">#745400</color>
+    <color name="gold_dark_5">#906a00</color>
+    <color name="gold_dark_6">#ac8100</color>
+    <color name="gold_dark_7">#c99811</color>
+    <color name="gold_dark_8">#e4b12f</color>
+    <color name="gold_dark_9">#ffcb47</color>
+    <color name="gold_dark_10">#ffdd90</color>
+    <color name="gold_dark_11">#ffeecd</color>
+    <color name="gold_dark_12">#ffffff</color>
+
+    <color name="gold_darkA_0">rgba(233, 100, 0, 0.03)</color>
+    <color name="gold_darkA_1">rgba(244, 163, 0, 0.16)</color>
+    <color name="gold_darkA_2">rgba(252, 176, 0, 0.25)</color>
+    <color name="gold_darkA_3">rgba(254, 180, 0, 0.35)</color>
+    <color name="gold_darkA_4">rgba(252, 183, 0, 0.46)</color>
+    <color name="gold_darkA_5">rgba(253, 186, 0, 0.57)</color>
+    <color name="gold_darkA_6">rgba(253, 190, 0, 0.68)</color>
+    <color name="gold_darkA_7">rgba(254, 192, 22, 0.79)</color>
+    <color name="gold_darkA_8">rgba(253, 197, 52, 0.9)</color>
+    <color name="gold_darkA_9">#ffcb47</color>
+    <color name="gold_darkA_10">#ffdd90</color>
+    <color name="gold_darkA_11">#ffeecd</color>
+    <color name="gold_darkA_12">#ffffff</color>
+
+    <!-- Gray Colors -->
+    <color name="gray_dark_0">#000000</color>
+    <color name="gray_dark_1">#111111</color>
+    <color name="gray_dark_2">#222222</color>
+    <color name="gray_dark_3">#2d2d2d</color>
+    <color name="gray_dark_4">#333333</color>
+    <color name="gray_dark_5">#444444</color>
+    <color name="gray_dark_6">#555555</color>
+    <color name="gray_dark_7">#666666</color>
+    <color name="gray_dark_8">#6f6f6f</color>
+    <color name="gray_dark_9">#777777</color>
+    <color name="gray_dark_10">#aaaaaa</color>
+    <color name="gray_dark_11">#dddddd</color>
+    <color name="gray_dark_12">#ffffff</color>
+
+    <color name="gray_darkA_0">rgba(255, 255, 255, 0.02)</color>
+    <color name="gray_darkA_1">rgba(255, 255, 255, 0.06)</color>
+    <color name="gray_darkA_2">rgba(255, 255, 255, 0.10)</color>
+    <color name="gray_darkA_3">rgba(255, 255, 255, 0.16)</color>
+    <color name="gray_darkA_4">rgba(255, 255, 255, 0.24)</color>
+    <color name="gray_darkA_5">rgba(255, 255, 255, 0.28)</color>
+    <color name="gray_darkA_6">rgba(255, 255, 255, 0.32)</color>
+    <color name="gray_darkA_7">rgba(255, 255, 255, 0.38)</color>
+    <color name="gray_darkA_8">rgba(255, 255, 255, 0.44)</color>
+    <color name="gray_darkA_9">rgba(255, 255, 255, 0.5)</color>
+    <color name="gray_darkA_10">rgba(255, 255, 255, 0.66)</color>
+    <color name="gray_darkA_11">rgba(255, 255, 255, 0.84)</color>
+    <color name="gray_darkA_12">#ffffff</color>
+
+    <!-- Green Colors -->
+    <color name="green_dark_0">#000503</color>
+    <color name="green_dark_1">#001d12</color>
+    <color name="green_dark_2">#002d1d</color>
+    <color name="green_dark_3">#003f28</color>
+    <color name="green_dark_4">#005232</color>
+    <color name="green_dark_5">#00653c</color>
+    <color name="green_dark_6">#007944</color>
+    <color name="green_dark_7">#1b8d4d</color>
+    <color name="green_dark_8">#3ba05a</color>
+    <color name="green_dark_9">#55b467</color>
+    <color name="green_dark_10">#96cd92</color>
+    <color name="green_dark_11">#cde6c3</color>
+    <color name="green_dark_12">#ffffff</color>
+
+    <color name="green_darkA_0">rgba(0, 250, 150, 0.02)</color>
+    <color name="green_darkA_1">rgba(0, 242, 150, 0.12)</color>
+    <color name="green_darkA_2">rgba(0, 250, 161, 0.18)</color>
+    <color name="green_darkA_3">rgba(0, 252, 160, 0.25)</color>
+    <color name="green_darkA_4">rgba(0, 248, 152, 0.33)</color>
+    <color name="green_darkA_5">rgba(0, 252, 150, 0.4)</color>
+    <color name="green_darkA_6">rgba(0, 252, 142, 0.48)</color>
+    <color name="green_darkA_7">rgba(48, 252, 137, 0.56)</color>
+    <color name="green_darkA_8">rgba(94, 254, 143, 0.63)</color>
+    <color name="green_darkA_9">rgba(120, 254, 145, 0.71)</color>
+    <color name="green_darkA_10">rgba(185, 253, 180, 0.81)</color>
+    <color name="green_darkA_11">rgba(225, 253, 214, 0.91)</color>
+    <color name="green_darkA_12">#ffffff</color>
+
+    <!-- Lime Colors -->
+    <color name="lime_dark_0">#020400</color>
+    <color name="lime_dark_1">#142100</color>
+    <color name="lime_dark_2">#253700</color>
+    <color name="lime_dark_3">#374f00</color>
+    <color name="lime_dark_4">#4b6800</color>
+    <color name="lime_dark_5">#608200</color>
+    <color name="lime_dark_6">#769d00</color>
+    <color name="lime_dark_7">#8fb81b</color>
+    <color name="lime_dark_8">#a9d42f</color>
+    <color name="lime_dark_9">#c4f042</color>
+    <color name="lime_dark_10">#daf685</color>
+    <color name="lime_dark_11">#eefbbe</color>
+    <color name="lime_dark_12">#ffffff</color>
+
+    <color name="lime_darkA_0">rgba(100, 200, 0, 0.02)</color>
+    <color name="lime_darkA_1">rgba(154, 254, 0, 0.13)</color>
+    <color name="lime_darkA_2">rgba(168, 250, 0, 0.22)</color>
+    <color name="lime_darkA_3">rgba(177, 255, 0, 0.31)</color>
+    <color name="lime_darkA_4">rgba(183, 254, 0, 0.41)</color>
+    <color name="lime_darkA_5">rgba(188, 255, 0, 0.51)</color>
+    <color name="lime_darkA_6">rgba(190, 253, 0, 0.62)</color>
+    <color name="lime_darkA_7">rgba(196, 252, 37, 0.73)</color>
+    <color name="lime_darkA_8">rgba(204, 255, 57, 0.83)</color>
+    <color name="lime_darkA_9">rgba(209, 255, 70, 0.94)</color>
+    <color name="lime_darkA_10">rgba(225, 254, 137, 0.97)</color>
+    <color name="lime_darkA_11">rgba(240, 254, 192, 0.99)</color>
+    <color name="lime_darkA_12">#ffffff</color>
+
+    <!-- Magenta Colors -->
+    <color name="magenta_dark_0">#100002</color>
+    <color name="magenta_dark_1">#350011</color>
+    <color name="magenta_dark_2">#4b001e</color>
+    <color name="magenta_dark_3">#63002d</color>
+    <color name="magenta_dark_4">#79093f</color>
+    <color name="magenta_dark_5">#8e1752</color>
+    <color name="magenta_dark_6">#a32466</color>
+    <color name="magenta_dark_7">#b8317b</color>
+    <color name="magenta_dark_8">#ce3e91</color>
+    <color name="magenta_dark_9">#e34ba9</color>
+    <color name="magenta_dark_10">#f38bcb</color>
+    <color name="magenta_dark_11">#fec5e8</color>
+    <color name="magenta_dark_12">#ffffff</color>
+
+    <color name="magenta_darkA_0">rgba(229, 0, 29, 0.07)</color>
+    <color name="magenta_darkA_1">rgba(252, 0, 81, 0.21)</color>
+    <color name="magenta_darkA_2">rgba(250, 0, 100, 0.3)</color>
+    <color name="magenta_darkA_3">rgba(254, 0, 115, 0.39)</color>
+    <color name="magenta_darkA_4">rgba(252, 19, 131, 0.48)</color>
+    <color name="magenta_darkA_5">rgba(254, 41, 146, 0.56)</color>
+    <color name="magenta_darkA_6">rgba(255, 56, 159, 0.64)</color>
+    <color name="magenta_darkA_7">rgba(252, 67, 168, 0.73)</color>
+    <color name="magenta_darkA_8">rgba(254, 77, 179, 0.81)</color>
+    <color name="magenta_darkA_9">rgba(255, 84, 190, 0.89)</color>
+    <color name="magenta_darkA_10">rgba(253, 145, 211, 0.96)</color>
+    <color name="magenta_darkA_11">#fec5e8</color>
+    <color name="magenta_darkA_12">#ffffff</color>
+
+    <!-- Orange Colors -->
+    <color name="orange_dark_0">#080300</color>
+    <color name="orange_dark_1">#271400</color>
+    <color name="orange_dark_2">#3d2000</color>
+    <color name="orange_dark_3">#552d00</color>
+    <color name="orange_dark_4">#6f3a00</color>
+    <color name="orange_dark_5">#8a4700</color>
+    <color name="orange_dark_6">#a75400</color>
+    <color name="orange_dark_7">#c66100</color>
+    <color name="orange_dark_8">#e37013</color>
+    <color name="orange_dark_9">#ff802b</color>
+    <color name="orange_dark_10">#ffae87</color>
+    <color name="orange_dark_11">#ffd7c8</color>
+    <color name="orange_dark_12">#ffffff</color>
+
+    <color name="orange_darkA_0">rgba(200, 75, 0, 0.04)</color>
+    <color name="orange_darkA_1">rgba(244, 125, 0, 0.16)</color>
+    <color name="orange_darkA_2">rgba(254, 133, 0, 0.24)</color>
+    <color name="orange_darkA_3">rgba(250, 132, 0, 0.34)</color>
+    <color name="orange_darkA_4">rgba(252, 132, 0, 0.44)</color>
+    <color name="orange_darkA_5">rgba(251, 129, 0, 0.55)</color>
+    <color name="orange_darkA_6">rgba(253, 127, 0, 0.66)</color>
+    <color name="orange_darkA_7">rgba(254, 124, 0, 0.78)</color>
+    <color name="orange_darkA_8">rgba(255, 126, 21, 0.89)</color>
+    <color name="orange_darkA_9">#ff802b</color>
+    <color name="orange_darkA_10">#ffae87</color>
+    <color name="orange_darkA_11">#ffd7c8</color>
+    <color name="orange_darkA_12">#ffffff</color>
+
+    <!-- Purple Colors -->
+    <color name="purple_dark_0">#0d000b</color>
+    <color name="purple_dark_1">#2e002a</color>
+    <color name="purple_dark_2">#42003e</color>
+    <color name="purple_dark_3">#560053</color>
+    <color name="purple_dark_4">#670e66</color>
+    <color name="purple_dark_5">#781e78</color>
+    <color name="purple_dark_6">#892b8a</color>
+    <color name="purple_dark_7">#9a399e</color>
+    <color name="purple_dark_8">#ab46b2</color>
+    <color name="purple_dark_9">#bd54c6</color>
+    <color name="purple_dark_10">#d590da</color>
+    <color name="purple_dark_11">#edc7ee</color>
+    <color name="purple_dark_12">#ffffff</color>
+
+    <color name="purple_darkA_0">rgba(217, 0, 183, 0.06)</color>
+    <color name="purple_darkA_1">rgba(242, 0, 221, 0.19)</color>
+    <color name="purple_darkA_2">rgba(254, 0, 238, 0.26)</color>
+    <color name="purple_darkA_3">rgba(253, 0, 244, 0.34)</color>
+    <color name="purple_darkA_4">rgba(251, 34, 249, 0.41)</color>
+    <color name="purple_darkA_5">rgba(255, 64, 255, 0.47)</color>
+    <color name="purple_darkA_6">rgba(249, 78, 251, 0.55)</color>
+    <color name="purple_darkA_7">rgba(248, 92, 255, 0.62)</color>
+    <color name="purple_darkA_8">rgba(244, 100, 254, 0.7)</color>
+    <color name="purple_darkA_9">rgba(242, 108, 254, 0.78)</color>
+    <color name="purple_darkA_10">rgba(248, 167, 253, 0.86)</color>
+    <color name="purple_darkA_11">rgba(252, 212, 253, 0.94)</color>
+    <color name="purple_darkA_12">#ffffff</color>
+
+    <!-- Red Colors -->
+    <color name="red_dark_0">#0f0006</color>
+    <color name="red_dark_1">#34001d</color>
+    <color name="red_dark_2">#4b002b</color>
+    <color name="red_dark_3">#640039</color>
+    <color name="red_dark_4">#7a0c46</color>
+    <color name="red_dark_5">#911b53</color>
+    <color name="red_dark_6">#a72860</color>
+    <color name="red_dark_7">#bf356e</color>
+    <color name="red_dark_8">#d7427b</color>
+    <color name="red_dark_9">#f04f88</color>
+    <color name="red_dark_10">#ff8eab</color>
+    <color name="red_dark_11">#ffc9d3</color>
+    <color name="red_dark_12">#ffffff</color>
+
+    <color name="red_darkA_0">rgba(250, 0, 100, 0.06)</color>
+    <color name="red_darkA_1">rgba(248, 0, 138, 0.21)</color>
+    <color name="red_darkA_2">rgba(250, 0, 143, 0.3)</color>
+    <color name="red_darkA_3">rgba(250, 0, 142, 0.4)</color>
+    <color name="red_darkA_4">rgba(254, 25, 146, 0.48)</color>
+    <color name="red_darkA_5">rgba(254, 47, 146, 0.57)</color>
+    <color name="red_darkA_6">rgba(253, 61, 145, 0.66)</color>
+    <color name="red_darkA_7">rgba(255, 71, 147, 0.75)</color>
+    <color name="red_darkA_8">rgba(253, 78, 145, 0.85)</color>
+    <color name="red_darkA_9">rgba(255, 84, 145, 0.94)</color>
+    <color name="red_darkA_10">#ff8eab</color>
+    <color name="red_darkA_11">#ffc9d3</color>
+    <color name="red_darkA_12">#ffffff</color>
+
+    <!-- Volcano Colors -->
+    <color name="volcano_dark_0">#0c0100</color>
+    <color name="volcano_dark_1">#2f0a00</color>
+    <color name="volcano_dark_2">#451200</color>
+    <color name="volcano_dark_3">#5d1900</color>
+    <color name="volcano_dark_4">#762000</color>
+    <color name="volcano_dark_5">#8e2a07</color>
+    <color name="volcano_dark_6">#a53716</color>
+    <color name="volcano_dark_7">#bc4424</color>
+    <color name="volcano_dark_8">#d45132</color>
+    <color name="volcano_dark_9">#ec5e41</color>
+    <color name="volcano_dark_10">#ff9480</color>
+    <color name="volcano_dark_11">#ffcbc3</color>
+    <color name="volcano_dark_12">#ffffff</color>
+
+    <color name="volcano_darkA_0">rgba(240, 20, 0, 0.05)</color>
+    <color name="volcano_darkA_1">rgba(247, 53, 0, 0.19)</color>
+    <color name="volcano_darkA_2">rgba(246, 64, 0, 0.28)</color>
+    <color name="volcano_darkA_3">rgba(251, 68, 0, 0.37)</color>
+    <color name="volcano_darkA_4">rgba(251, 68, 0, 0.47)</color>
+    <color name="volcano_darkA_5">rgba(254, 75, 12, 0.56)</color>
+    <color name="volcano_darkA_6">rgba(254, 85, 34, 0.65)</color>
+    <color name="volcano_darkA_7">rgba(254, 92, 49, 0.74)</color>
+    <color name="volcano_darkA_8">rgba(255, 98, 60, 0.83)</color>
+    <color name="volcano_darkA_9">rgba(254, 101, 70, 0.93)</color>
+    <color name="volcano_darkA_10">#ff9480</color>
+    <color name="volcano_darkA_11">#ffcbc3</color>
+    <color name="volcano_darkA_12">#ffffff</color>
+
+    <!-- Yellow Colors -->
+    <color name="yellow_dark_0">#050400</color>
+    <color name="yellow_dark_1">#251d00</color>
+    <color name="yellow_dark_2">#3e3300</color>
+    <color name="yellow_dark_3">#584a00</color>
+    <color name="yellow_dark_4">#736300</color>
+    <color name="yellow_dark_5">#8e7d00</color>
+    <color name="yellow_dark_6">#ab9800</color>
+    <color name="yellow_dark_7">#c7b426</color>
+    <color name="yellow_dark_8">#e3d142</color>
+    <color name="yellow_dark_9">#ffef5c</color>
+    <color name="yellow_dark_10">#fff594</color>
+    <color name="yellow_dark_11">#fffad3</color>
+    <color name="yellow_dark_12">#ffffff</color>
+
+    <color name="yellow_darkA_0">rgba(250, 200, 0, 0.02)</color>
+    <color name="yellow_darkA_1">rgba(247, 193, 0, 0.15)</color>
+    <color name="yellow_darkA_2">rgba(248, 204, 0, 0.25)</color>
+    <color name="yellow_darkA_3">rgba(251, 211, 0, 0.35)</color>
+    <color name="yellow_darkA_4">rgba(250, 215, 0, 0.46)</color>
+    <color name="yellow_darkA_5">rgba(254, 223, 0, 0.56)</color>
+    <color name="yellow_darkA_6">rgba(255, 227, 0, 0.67)</color>
+    <color name="yellow_darkA_7">rgba(255, 231, 49, 0.78)</color>
+    <color name="yellow_darkA_8">rgba(255, 235, 74, 0.89)</color>
+    <color name="yellow_darkA_9">#ffef5c</color>
+    <color name="yellow_darkA_10">#fff594</color>
+    <color name="yellow_darkA_11">#fffad3</color>
+    <color name="yellow_darkA_12">#ffffff</color>
+<!-- Mauve Colors -->
+<color name="mauve_dark_0">#1c1b1e</color>
+<color name="mauve_dark_1">#252528</color>
+<color name="mauve_dark_2">#2f2f32</color>
+<color name="mauve_dark_3">#3a393d</color>
+<color name="mauve_dark_4">#454448</color>
+<color name="mauve_dark_5">#504f53</color>
+<color name="mauve_dark_6">#5b5a5f</color>
+<color name="mauve_dark_7">#67666a</color>
+<color name="mauve_dark_8">#737177</color>
+<color name="mauve_dark_9">#7f7d83</color>
+<color name="mauve_dark_10">#bbb9bd</color>
+<color name="mauve_dark_11">#fcf8fb</color>
+<color name="mauve_dark_12">#ffffff</color>
+
+<color name="mauve_darkA_0">rgba(233, 225, 250, 0.12)</color>
+<color name="mauve_darkA_1">rgba(231, 231, 250, 0.16)</color>
+<color name="mauve_darkA_2">rgba(235, 235, 250, 0.2)</color>
+<color name="mauve_darkA_3">rgba(242, 237, 254, 0.24)</color>
+<color name="mauve_darkA_4">rgba(238, 234, 248, 0.29)</color>
+<color name="mauve_darkA_5">rgba(242, 239, 252, 0.33)</color>
+<color name="mauve_darkA_6">rgba(239, 237, 250, 0.38)</color>
+<color name="mauve_darkA_7">rgba(245, 243, 252, 0.42)</color>
+<color name="mauve_darkA_8">rgba(245, 240, 253, 0.47)</color>
+<color name="mauve_darkA_9">rgba(244, 240, 252, 0.52)</color>
+<color name="mauve_darkA_10">rgba(253, 250, 255, 0.74)</color>
+<color name="mauve_darkA_11">rgba(255, 251, 254, 0.99)</color>
+<color name="mauve_darkA_12">#ffffff</color>
+
+<color name="mauve_light_0">#fcf8fb</color>
+<color name="mauve_light_1">#edeaed</color>
+<color name="mauve_light_2">#dfdcdf</color>
+<color name="mauve_light_3">#d1ced2</color>
+<color name="mauve_light_4">#c2c0c4</color>
+<color name="mauve_light_5">#b4b2b7</color>
+<color name="mauve_light_6">#a7a4a9</color>
+<color name="mauve_light_7">#99979c</color>
+<color name="mauve_light_8">#8c8a90</color>
+<color name="mauve_light_9">#7f7d83</color>
+<color name="mauve_light_10">#4a494d</color>
+<color name="mauve_light_11">#1c1b1e</color>
+<color name="mauve_light_12">#111111</color>
+
+<color name="mauve_lightA_0">rgba(155, 22, 122, 0.03)</color>
+<color name="mauve_lightA_1">rgba(55, 22, 55, 0.09)</color>
+<color name="mauve_lightA_2">rgba(26, 5, 26, 0.14)</color>
+<color name="mauve_lightA_3">rgba(25, 10, 30, 0.2)</color>
+<color name="mauve_lightA_4">rgba(11, 3, 19, 0.25)</color>
+<color name="mauve_lightA_5">rgba(13, 7, 23, 0.31)</color>
+<color name="mauve_lightA_6">rgba(11, 2, 16, 0.36)</color>
+<color name="mauve_lightA_7">rgba(6, 1, 14, 0.41)</color>
+<color name="mauve_lightA_8">rgba(5, 1, 14, 0.46)</color>
+<color name="mauve_lightA_9">rgba(4, 0, 12, 0.51)</color>
+<color name="mauve_lightA_10">rgba(4, 2, 8, 0.72)</color>
+<color name="mauve_lightA_11">rgba(3, 2, 5, 0.9)</color>
+<color name="mauve_lightA_12">#111111</color>
+
+<!-- Olive Colors -->
+<color name="olive_dark_0">#1a1c1b</color>
+<color name="olive_dark_1">#232624</color>
+<color name="olive_dark_2">#2d302e</color>
+<color name="olive_dark_3">#383a38</color>
+<color name="olive_dark_4">#424542</color>
+<color name="olive_dark_5">#4d504d</color>
+<color name="olive_dark_6">#585c58</color>
+<color name="olive_dark_7">#646763</color>
+<color name="olive_dark_8">#70736e</color>
+<color name="olive_dark_9">#7c7f79</color>
+<color name="olive_dark_10">#b9bab5</color>
+<color name="olive_dark_11">#faf9f4</color>
+<color name="olive_dark_12">#ffffff</color>
+
+<color name="olive_darkA_0">rgba(236, 255, 245, 0.11)</color>
+<color name="olive_darkA_1">rgba(233, 253, 240, 0.15)</color>
+<color name="olive_darkA_2">rgba(237, 253, 242, 0.19)</color>
+<color name="olive_darkA_3">rgba(243, 252, 243, 0.23)</color>
+<color name="olive_darkA_4">rgba(236, 246, 236, 0.28)</color>
+<color name="olive_darkA_5">rgba(241, 250, 241, 0.32)</color>
+<color name="olive_darkA_6">rgba(238, 249, 238, 0.37)</color>
+<color name="olive_darkA_7">rgba(244, 251, 241, 0.41)</color>
+<color name="olive_darkA_8">rgba(243, 250, 239, 0.46)</color>
+<color name="olive_darkA_9">rgba(248, 254, 242, 0.5)</color>
+<color name="olive_darkA_10">rgba(253, 255, 248, 0.73)</color>
+<color name="olive_darkA_11">rgba(255, 254, 249, 0.98)</color>
+<color name="olive_darkA_12">#ffffff</color>
+
+<color name="olive_light_0">#faf9f4</color>
+<color name="olive_light_1">#ecebe6</color>
+<color name="olive_light_2">#ddddd7</color>
+<color name="olive_light_3">#cfcfc9</color>
+<color name="olive_light_4">#c0c1bb</color>
+<color name="olive_light_5">#b2b4ae</color>
+<color name="olive_light_6">#a4a6a0</color>
+<color name="olive_light_7">#969993</color>
+<color name="olive_light_8">#898c86</color>
+<color name="olive_light_9">#7c7f79</color>
+<color name="olive_light_10">#484b48</color>
+<color name="olive_light_11">#1a1c1b</color>
+<color name="olive_light_12">#111111</color>
+
+<color name="olive_lightA_0">rgba(155, 135, 35, 0.05)</color>
+<color name="olive_lightA_1">rgba(65, 55, 5, 0.1)</color>
+<color name="olive_lightA_2">rgba(43, 43, 5, 0.16)</color>
+<color name="olive_lightA_3">rgba(37, 37, 10, 0.22)</color>
+<color name="olive_lightA_4">rgba(22, 25, 3, 0.27)</color>
+<color name="olive_lightA_5">rgba(14, 21, 2, 0.32)</color>
+<color name="olive_lightA_6">rgba(16, 21, 5, 0.38)</color>
+<color name="olive_lightA_7">rgba(11, 18, 4, 0.43)</color>
+<color name="olive_lightA_8">rgba(9, 15, 3, 0.48)</color>
+<color name="olive_lightA_9">rgba(8, 13, 2, 0.53)</color>
+<color name="olive_lightA_10">rgba(1, 5, 1, 0.72)</color>
+<color name="olive_lightA_11">rgba(1, 3, 2, 0.9)</color>
+<color name="olive_lightA_12">#111111</color>
+
+<!-- Sage Colors -->
+<color name="sage_dark_0">#1a1c1b</color>
+<color name="sage_dark_1">#232625</color>
+<color name="sage_dark_2">#2d302f</color>
+<color name="sage_dark_3">#373a39</color>
+<color name="sage_dark_4">#424543</color>
+<color name="sage_dark_5">#4d504e</color>
+<color name="sage_dark_6">#585c59</color>
+<color name="sage_dark_7">#636765</color>
+<color name="sage_dark_8">#6f7370</color>
+<color name="sage_dark_9">#7a7f7c</color>
+<color name="sage_dark_10">#b8bab7</color>
+<color name="sage_dark_11">#f9f9f7</color>
+<color name="sage_dark_12">#ffffff</color>
+
+<color name="sage_darkA_0">rgba(236, 255, 245, 0.11)</color>
+<color name="sage_darkA_1">rgba(233, 253, 247, 0.15)</color>
+<color name="sage_darkA_2">rgba(237, 253, 247, 0.19)</color>
+<color name="sage_darkA_3">rgba(239, 252, 248, 0.23)</color>
+<color name="sage_darkA_4">rgba(236, 246, 239, 0.28)</color>
+<color name="sage_darkA_5">rgba(241, 250, 244, 0.32)</color>
+<color name="sage_darkA_6">rgba(238, 249, 241, 0.37)</color>
+<color name="sage_darkA_7">rgba(241, 251, 246, 0.41)</color>
+<color name="sage_darkA_8">rgba(241, 250, 243, 0.46)</color>
+<color name="sage_darkA_9">rgba(244, 254, 248, 0.5)</color>
+<color name="sage_darkA_10">rgba(252, 255, 251, 0.73)</color>
+<color name="sage_darkA_11">rgba(254, 254, 252, 0.98)</color>
+<color name="sage_darkA_12">#ffffff</color>
+
+<color name="sage_light_0">#f9f9f7</color>
+<color name="sage_light_1">#eaebe8</color>
+<color name="sage_light_2">#dcddda</color>
+<color name="sage_light_3">#cdcfcc</color>
+<color name="sage_light_4">#bfc1be</color>
+<color name="sage_light_5">#b1b4b0</color>
+<color name="sage_light_6">#a3a6a3</color>
+<color name="sage_light_7">#959996</color>
+<color name="sage_light_8">#888c89</color>
+<color name="sage_light_9">#7a7f7c</color>
+<color name="sage_light_10">#474b49</color>
+<color name="sage_light_11">#1a1c1b</color>
+<color name="sage_light_12">#111111</color>
+
+<color name="sage_lightA_0">rgba(105, 105, 55, 0.04)</color>
+<color name="sage_lightA_1">rgba(45, 55, 25, 0.1)</color>
+<color name="sage_lightA_2">rgba(22, 28, 8, 0.15)</color>
+<color name="sage_lightA_3">rgba(5, 15, 0, 0.2)</color>
+<color name="sage_lightA_4">rgba(9, 17, 5, 0.26)</color>
+<color name="sage_lightA_5">rgba(3, 13, 0, 0.31)</color>
+<color name="sage_lightA_6">rgba(6, 14, 6, 0.37)</color>
+<color name="sage_lightA_7">rgba(3, 12, 5, 0.42)</color>
+<color name="sage_lightA_8">rgba(2, 10, 4, 0.47)</color>
+<color name="sage_lightA_9">rgba(4, 13, 8, 0.53)</color>
+<color name="sage_lightA_10">rgba(3, 8, 6, 0.73)</color>
+<color name="sage_lightA_11">rgba(1, 3, 2, 0.9)</color>
+<color name="sage_lightA_12">#111111</color>
+
+<!-- Sand Colors -->
+<color name="sand_dark_0">#1c1c18</color>
+<color name="sand_dark_1">#262521</color>
+<color name="sand_dark_2">#30302b</color>
+<color name="sand_dark_3">#3a3a35</color>
+<color name="sand_dark_4">#45453f</color>
+<color name="sand_dark_5">#505049</color>
+<color name="sand_dark_6">#5c5b54</color>
+<color name="sand_dark_7">#67675f</color>
+<color name="sand_dark_8">#73726a</color>
+<color name="sand_dark_9">#7f7e76</color>
+<color name="sand_dark_10">#bcbab2</color>
+<color name="sand_dark_11">#fcf9f3</color>
+<color name="sand_dark_12">#ffffff</color>
+
+<color name="sand_darkA_0">rgba(255, 255, 218, 0.11)</color>
+<color name="sand_darkA_1">rgba(253, 247, 220, 0.15)</color>
+<color name="sand_darkA_2">rgba(253, 253, 226, 0.19)</color>
+<color name="sand_darkA_3">rgba(252, 252, 230, 0.23)</color>
+<color name="sand_darkA_4">rgba(246, 246, 225, 0.28)</color>
+<color name="sand_darkA_5">rgba(250, 250, 228, 0.32)</color>
+<color name="sand_darkA_6">rgba(249, 246, 227, 0.37)</color>
+<color name="sand_darkA_7">rgba(251, 251, 232, 0.41)</color>
+<color name="sand_darkA_8">rgba(250, 248, 230, 0.46)</color>
+<color name="sand_darkA_9">rgba(254, 252, 236, 0.5)</color>
+<color name="sand_darkA_10">rgba(254, 251, 241, 0.74)</color>
+<color name="sand_darkA_11">rgba(255, 252, 245, 0.99)</color>
+<color name="sand_darkA_12">#ffffff</color>
+
+<color name="sand_light_0">#fcf9f3</color>
+<color name="sand_light_1">#edebe4</color>
+<color name="sand_light_2">#dfddd5</color>
+<color name="sand_light_3">#d1cfc7</color>
+<color name="sand_light_4">#c3c1b9</color>
+<color name="sand_light_5">#b5b3ab</color>
+<color name="sand_light_6">#a7a69d</color>
+<color name="sand_light_7">#999890</color>
+<color name="sand_light_8">#8c8b83</color>
+<color name="sand_light_9">#7f7e76</color>
+<color name="sand_light_10">#4b4a44</color>
+<color name="sand_light_11">#1c1c18</color>
+<color name="sand_light_12">#111111</color>
+
+<color name="sand_lightA_0">rgba(195, 135, 15, 0.05)</color>
+<color name="sand_lightA_1">rgba(91, 73, 10, 0.11)</color>
+<color name="sand_lightA_2">rgba(67, 55, 8, 0.17)</color>
+<color name="sand_lightA_3">rgba(46, 37, 0, 0.22)</color>
+<color name="sand_lightA_4">rgba(41, 34, 5, 0.28)</color>
+<color name="sand_lightA_5">rgba(31, 25, 0, 0.33)</color>
+<color name="sand_lightA_6">rgba(29, 27, 4, 0.39)</color>
+<color name="sand_lightA_7">rgba(23, 21, 3, 0.44)</color>
+<color name="sand_lightA_8">rgba(20, 18, 2, 0.49)</color>
+<color name="sand_lightA_9">rgba(18, 16, 1, 0.54)</color>
+<color name="sand_lightA_10">rgba(12, 10, 2, 0.74)</color>
+<color name="sand_lightA_11">rgba(6, 6, 1, 0.91)</color>
+<color name="sand_lightA_12">#111111</color>
+
+<!-- Slate Colors -->
+<color name="slate_dark_0">#1b1c1d</color>
+<color name="slate_dark_1">#242527</color>
+<color name="slate_dark_2">#2e2f32</color>
+<color name="slate_dark_3">#383a3c</color>
+<color name="slate_dark_4">#434547</color>
+<color name="slate_dark_5">#4e5052</color>
+<color name="slate_dark_6">#595b5e</color>
+<color name="slate_dark_7">#64676a</color>
+<color name="slate_dark_8">#707276</color>
+<color name="slate_dark_9">#7b7e82</color>
+<color name="slate_dark_10">#b8babc</color>
+<color name="slate_dark_11">#f9f9fa</color>
+<color name="slate_dark_12">#ffffff</color>
+
+<color name="slate_darkA_0">rgba(225, 233, 242, 0.12)</color>
+<color name="slate_darkA_1">rgba(225, 231, 244, 0.16)</color>
+<color name="slate_darkA_2">rgba(230, 235, 250, 0.2)</color>
+<color name="slate_darkA_3">rgba(233, 242, 250, 0.24)</color>
+<color name="slate_darkA_4">rgba(239, 246, 254, 0.28)</color>
+<color name="slate_darkA_5">rgba(236, 242, 248, 0.33)</color>
+<color name="slate_darkA_6">rgba(241, 246, 254, 0.37)</color>
+<color name="slate_darkA_7">rgba(238, 245, 252, 0.42)</color>
+<color name="slate_darkA_8">rgba(238, 243, 251, 0.47)</color>
+<color name="slate_darkA_9">rgba(241, 247, 255, 0.51)</color>
+<color name="slate_darkA_10">rgba(249, 251, 254, 0.74)</color>
+<color name="slate_darkA_11">rgba(254, 254, 255, 0.98)</color>
+<color name="slate_darkA_12">#ffffff</color>
+
+<color name="slate_light_0">#f9f9fa</color>
+<color name="slate_light_1">#ebebec</color>
+<color name="slate_light_2">#dcddde</color>
+<color name="slate_light_3">#cecfd0</color>
+<color name="slate_light_4">#bfc1c3</color>
+<color name="slate_light_5">#b1b3b5</color>
+<color name="slate_light_6">#a4a6a8</color>
+<color name="slate_light_7">#96989b</color>
+<color name="slate_light_8">#898b8e</color>
+<color name="slate_light_9">#7b7e82</color>
+<color name="slate_light_10">#484a4d</color>
+<color name="slate_light_11">#1b1c1d</color>
+<color name="slate_light_12">#111111</color>
+
+<color name="slate_lightA_0">rgba(55, 55, 88, 0.03)</color>
+<color name="slate_lightA_1">rgba(5, 5, 17, 0.08)</color>
+<color name="slate_lightA_2">rgba(5, 12, 19, 0.14)</color>
+<color name="slate_lightA_3">rgba(10, 15, 20, 0.2)</color>
+<color name="slate_lightA_4">rgba(9, 17, 24, 0.26)</color>
+<color name="slate_lightA_5">rgba(3, 10, 16, 0.31)</color>
+<color name="slate_lightA_6">rgba(2, 8, 13, 0.36)</color>
+<color name="slate_lightA_7">rgba(5, 10, 17, 0.42)</color>
+<color name="slate_lightA_8">rgba(4, 8, 15, 0.47)</color>
+<color name="slate_lightA_9">rgba(1, 7, 15, 0.52)</color>
+<color name="slate_lightA_10">rgba(1, 4, 8, 0.72)</color>
+<color name="slate_lightA_11">rgba(2, 3, 4, 0.9)</color>
+<color name="slate_lightA_12">#111111</color>
+
 </resources>
