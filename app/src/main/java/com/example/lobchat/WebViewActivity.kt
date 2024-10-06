@@ -1,34 +1,39 @@
 package com.example.lobchat
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.webkit.*
+import android.webkit.ConsoleMessage
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResult
 
 class WebViewActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
+    private var isFinalUrlLoaded = false
+    // 用于标记是否通过 LobeChat 验证
+    private var isLobeChatVerified = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web_view) // 确保这个布局文件存在
+        setContentView(R.layout.activity_web_view)
 
         // 初始化 WebView
         webView = findViewById(R.id.webView)
         setupWebView()
-
-        // 设置状态栏为透明，使系统自动使用默认的颜色
-        window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
 
         // 初始化文件选择器启动器
         fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -36,24 +41,12 @@ class WebViewActivity : AppCompatActivity() {
         }
 
         // 获取传递的 URL
-        val url = intent.getStringExtra("URL") // 确保这个 key 和 MainActivity 一致
+        val url = intent.getStringExtra("URL")
         if (!url.isNullOrEmpty()) {
             webView.loadUrl(url)
         } else {
             showSnackbar("No URL provided")
         }
-
-        // 处理返回键事件
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                } else {
-                    isEnabled = false // Disable the callback so that the default behavior can occur
-                    finish() // Close the activity when there's no page to go back to
-                }
-            }
-        })
     }
 
     private fun setupWebView() {
@@ -63,13 +56,37 @@ class WebViewActivity : AppCompatActivity() {
         webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 
         webView.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                showSnackbar("Network error, please try again later.")
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                // 当 URL 变化时重置 isFinalUrlLoaded 标志
+                isFinalUrlLoaded = false
+                return false // 返回 false 表示允许 WebView 处理请求
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                injectJavaScript(view)
+
+                if (!isLobeChatVerified) {
+                    view?.evaluateJavascript(
+                        """
+                        (function() {
+                            var metaTags = document.getElementsByTagName('head')[0].innerHTML;
+                            return metaTags.includes('lobechat');
+                        })();
+                        """.trimIndent()
+                    ) { result ->
+                        if (result == "true") {
+                            isLobeChatVerified = true // 验证通过，不再继续验证
+                            Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@WebViewActivity, "The webpage does not contain the required LobeChat text in the header.", Toast.LENGTH_LONG).show()
+                            // 如果验证失败，返回 MainActivity
+                            val intent = Intent(this@WebViewActivity, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
             }
         }
 
@@ -92,16 +109,6 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun injectJavaScript(view: WebView?) {
-        view?.evaluateJavascript(
-            """
-            window.addEventListener('beforeinstallprompt', function(e) {
-                e.preventDefault();
-                console.log('Install prompt blocked by WebView');
-            });
-            """.trimIndent(), null
-        )
-    }
     private fun launchFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -110,8 +117,8 @@ class WebViewActivity : AppCompatActivity() {
         fileChooserLauncher.launch(Intent.createChooser(intent, "Select Picture"))
     }
 
-    private fun handleFileChooserResult(result: ActivityResult) {
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+    private fun handleFileChooserResult(result: androidx.activity.result.ActivityResult) {
+        if (result.resultCode == RESULT_OK && result.data != null) {
             val resultUri = result.data?.data
             filePathCallback?.onReceiveValue(resultUri?.let { arrayOf(it) })
             filePathCallback = null
