@@ -5,11 +5,8 @@
         <item name="android:statusBarColor">
             @color/purple_dark_9
         </item>
-        <item name="android:navigationBarColor">
-            @color/design_default_color_background
-        </item>
         <item name="android:windowTitleBackgroundStyle">
-            @color/design_default_color_background
+            @color/purple_dark_9
         </item>
     </style>
 </resources>

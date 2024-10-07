@@ -1,80 +1,83 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
 
         <!-- 包含两个ImageView的容器 -->
         <LinearLayout
-            android:id="@+id/logoPos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="84dp">
+                android:id="@+id/logoPos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="60dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout">
 
             <ImageView
-                android:id="@+id/logo_3d"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:contentDescription="@string/logo_3d_description"
-                android:src="@drawable/logo_3d" />
+                    android:id="@+id/logo_3d"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/logo_3d_description"
+                    android:src="@drawable/logo_3d" />
 
             <ImageView
-                android:id="@+id/appLogo"
-                android:layout_width="200dp"
-                android:layout_height="80dp"
-                android:contentDescription="@string/app_logo"
-                android:src="@drawable/logo" />
+                    android:id="@+id/appLogo"
+                    android:layout_width="200dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/app_logo"
+                    android:src="@drawable/logo" />
 
         </LinearLayout>
 
         <!-- 输入框和按钮 -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoPos"
-            android:layout_marginTop="20dp"
-            app:layout_constraintWidth_percent="0.8">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logoPos"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.8"
+                android:id="@+id/linearLayout">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/urlInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enter_your_server_url"
-                    android:inputType="textUri"
-                    android:textColor="@color/cyan_dark_0"
-                    android:textColorHint="@color/gray_dark_4"
-                    android:textSize="14sp" />
+                    android:layout_marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/urlInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/enter_your_server_url"
+                        android:inputType="textUri"
+                        android:textColor="@color/cyan_dark_0"
+                        android:textColorHint="@color/gray_dark_4"
+                        android:background="@color/browser_actions_bg_grey"
+                        android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/loadUrlButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/gray_dark_0"
-                android:text="@string/send"
-                android:textColor="@android:color/white"
-                android:textAllCaps="false"
-                app:cornerRadius="4dp" />
+                    android:id="@+id/loadUrlButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/gray_dark_0"
+                    android:text="@string/send"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    app:cornerRadius="4dp" />
 
         </LinearLayout>
 

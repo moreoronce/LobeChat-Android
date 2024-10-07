@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/gray_dark_2"/> <!-- 按钮的背景颜色，可以更改为你喜欢的颜色 -->
-    <corners android:radius="10dp"/> <!-- 设置圆角半径，12dp 可以根据需要进行调整 -->
+    <solid android:color="@color/gray_dark_2"/>
+    <corners android:radius="10dp"/>
     <stroke
         android:width="1dp"
-        android:color="@android:color/transparent"/> <!-- 按钮的边框颜色，可以修改 -->
+        android:color="@android:color/transparent"/>
     <padding
         android:left="12dp"
         android:top="8dp"
         android:right="12dp"
-        android:bottom="8dp"/> <!-- 设置按钮的内边距 -->
+        android:bottom="8dp"/>
 </shape>

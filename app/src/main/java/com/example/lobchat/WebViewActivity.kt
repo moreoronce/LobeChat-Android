@@ -45,6 +45,7 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupRefreshButton() {
         // 将按钮置于最前，并设置点击和拖动事件
         refreshButton.bringToFront()
@@ -63,7 +64,7 @@ class WebViewActivity : AppCompatActivity() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
-        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
         webSettings.databaseEnabled = true
         webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 
@@ -153,11 +154,23 @@ class WebViewActivity : AppCompatActivity() {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun onBackPressed() {
+        // 检查 WebView 是否可以后退
+        if (webView.canGoBack()) {
+            webView.goBack() // 如果可以后退，则调用 goBack()
+        } else {
+            super.onBackPressed() // 否则调用默认的后退行为
+        }
+    }
+
     private inner class DraggableTouchListener : View.OnTouchListener {
+
         private var dX = 0f
         private var dY = 0f
         private var isClick = false
+        private val touchSlop = 10 // 触摸阈值，用于判断是否为点击
 
+        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(view: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -166,20 +179,28 @@ class WebViewActivity : AppCompatActivity() {
                     isClick = true
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    view.animate()
-                        .x(event.rawX + dX)
-                        .y(event.rawY + dY)
-                        .setDuration(0)
-                        .start()
-                    isClick = false
+                    val deltaX = event.rawX + dX - view.x
+                    val deltaY = event.rawY + dY - view.y
+                    if (Math.abs(deltaX) > touchSlop || Math.abs(deltaY) > touchSlop) {
+                        isClick = false // 超过阈值视为拖动
+                        view.animate()
+                            .x(event.rawX + dX)
+                            .y(event.rawY + dY)
+                            .setDuration(0)
+                            .start()
+                    }
                 }
                 MotionEvent.ACTION_UP -> {
                     if (isClick) {
-                        logAndReload()
+                        // 添加延迟，确保是点击而非拖动
+                        view.postDelayed({
+                            logAndReload()
+                        }, 100) // 延迟100毫秒
                     }
                 }
             }
             return true
         }
     }
+
 }
