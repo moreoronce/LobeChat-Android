@@ -1,91 +1,81 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- URL 输入部分，包括 Logo、URL 输入框和提交按钮 -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/urlInputLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/logo_3d"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="84dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/logo_3d_description"
-            android:src="@drawable/logo_3d"
-            app:layout_constraintEnd_toStartOf="@+id/appLogo"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/appLogo"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/logo_3d_description"
-            android:src="@drawable/logo"
-            app:layout_constraintBottom_toBottomOf="@+id/logo_3d"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/logo_3d" />
-
-        <EditText
-            android:id="@+id/urlInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="16dp"
-            android:autofillHints="url"
-            android:background="@drawable/search_box_background"
-            android:hint="@string/enter_your_server_url"
-            android:inputType="textUri"
-            android:padding="12dp"
-            android:textColor="@color/cyan_dark_0"
-            android:textColorHint="@color/gray_dark_8"
-            android:textSize="14sp"
-            android:lineSpacingExtra="1.571dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appLogo" />
-
-        <!-- 提交按钮 -->
-        <Button
-            android:id="@+id/loadUrlButton"
+        <!-- 包含两个ImageView的容器 -->
+        <LinearLayout
+            android:id="@+id/logoPos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded_background"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:lineSpacingExtra="1.57dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="6dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="6dp"
-            android:text="@string/send"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="84dp">
+
+            <ImageView
+                android:id="@+id/logo_3d"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/logo_3d_description"
+                android:src="@drawable/logo_3d" />
+
+            <ImageView
+                android:id="@+id/appLogo"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/app_logo"
+                android:src="@drawable/logo" />
+
+        </LinearLayout>
+
+        <!-- 输入框和按钮 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/urlInput" />
+            app:layout_constraintTop_toBottomOf="@id/logoPos"
+            android:layout_marginTop="20dp"
+            app:layout_constraintWidth_percent="0.8">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urlInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_your_server_url"
+                    android:inputType="textUri"
+                    android:textColor="@color/cyan_dark_0"
+                    android:textColorHint="@color/gray_dark_8"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loadUrlButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/gray_dark_0"
+                android:text="@string/send"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                app:cornerRadius="4dp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- WebView 控件 -->
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
 
 </FrameLayout>

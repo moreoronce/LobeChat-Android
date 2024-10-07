@@ -49,6 +49,18 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
+    // 增加处理Android返回键逻辑
+    override fun onBackPressed() {
+        if (webView.canGoBack()) {
+            // 如果WebView能够返回上一页
+            webView.goBack()
+        } else {
+            // 否则调用super以处理默认的后退行为
+            super.onBackPressed()
+        }
+    }
+
+
     private fun setupWebView() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
