@@ -15,13 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
-
 class WebViewActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
-    private var isFinalUrlLoaded = false
     private var isLobeChatVerified = false
     private lateinit var refreshButton: FloatingActionButton
 
@@ -30,26 +28,13 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
+        // 初始化视图组件
         refreshButton = findViewById(R.id.refreshButton)
-        // 初始化 WebView
         webView = findViewById(R.id.webView)
 
         setupWebView()
-
-        // 刷新按钮的点击事件
-        refreshButton.bringToFront()
-        refreshButton.setOnClickListener {
-            Log.i("WebViewActivity", "Refresh button clicked")
-            webView.reload()
-        }
-
-        // 设置拖动事件监听器
-        refreshButton.setOnTouchListener(DraggableTouchListener())
-
-        // 初始化文件选择器启动器
-        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            handleFileChooserResult(result)
-        }
+        setupRefreshButton()
+        setupFileChooser()
 
         // 获取传递的 URL
         val url = intent.getStringExtra("URL")
@@ -60,71 +45,46 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    // 处理返回键
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
+    private fun setupRefreshButton() {
+        // 将按钮置于最前，并设置点击和拖动事件
+        refreshButton.bringToFront()
+        refreshButton.setOnClickListener {
+            logAndReload()
         }
+        refreshButton.setOnTouchListener(DraggableTouchListener())
+    }
+
+    private fun logAndReload() {
+        Log.i("WebViewActivity", "Refresh button clicked")
+        webView.reload()
     }
 
     private fun setupWebView() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
-        webSettings.cacheMode = WebSettings.LOAD_DEFAULT // Use default caching strategy
-
-        // Other optimizations
+        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
         webSettings.databaseEnabled = true
         webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
 
+        // 设置用户代理字符串
         webSettings.userAgentString = "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Mobile Safari/537.36"
 
+        // 设置WebView客户端
         webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                isFinalUrlLoaded = false
-                return false
-            }
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-
-                if (!isLobeChatVerified) {
-                    view?.evaluateJavascript(
-                        """
-                        (function() {
-                            var metaTags = document.getElementsByTagName('head')[0].innerHTML;
-                            return metaTags.includes('lobechat');
-                        })();
-                        """.trimIndent()
-                    ) { result ->
-                        if (result == "true") {
-                            isLobeChatVerified = true
-                            Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this@WebViewActivity, "The webpage does not contain the required LobeChat text in the header.", Toast.LENGTH_LONG).show()
-                            val intent = Intent(this@WebViewActivity, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-                }
+                validateLobeChat(view)
             }
         }
 
+        // 设置Chrome客户端用于处理文件选择和控制台日志
         webView.webChromeClient = object : WebChromeClient() {
             override fun onShowFileChooser(
-                webView: WebView?,
-                filePathCallback: ValueCallback<Array<Uri>>,
-                fileChooserParams: FileChooserParams?
-            ): Boolean {
-                this@WebViewActivity.filePathCallback?.onReceiveValue(null)
-                this@WebViewActivity.filePathCallback = filePathCallback
-                launchFileChooser()
-                return true
-            }
+                webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>,
+                fileChooserParams: FileChooserParams?) = launchFileChooser(filePathCallback)
 
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 Log.e("WebViewConsole", "JavaScript Error: ${consoleMessage?.message()} -- From line ${consoleMessage?.lineNumber()} of ${consoleMessage?.sourceId()}")
@@ -133,12 +93,49 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchFileChooser() {
+    private fun validateLobeChat(view: WebView?) {
+        if (!isLobeChatVerified) {
+            view?.evaluateJavascript(
+                """
+                (function() {
+                    var metaTags = document.getElementsByTagName('head')[0].innerHTML;
+                    return metaTags.includes('lobechat');
+                })();
+                """.trimIndent()
+            ) { result ->
+                if (result == "true") {
+                    isLobeChatVerified = true
+                    Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
+                } else {
+                    handleLobeChatValidationFailure()
+                }
+            }
+        }
+    }
+
+    private fun handleLobeChatValidationFailure() {
+        Toast.makeText(this@WebViewActivity, "The webpage does not contain the required LobeChat text in the header.", Toast.LENGTH_LONG).show()
+        val intent = Intent(this@WebViewActivity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun setupFileChooser() {
+        fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            handleFileChooserResult(result)
+        }
+    }
+
+    private fun launchFileChooser(filePathCallback: ValueCallback<Array<Uri>>): Boolean {
+        this.filePathCallback?.onReceiveValue(null)
+        this.filePathCallback = filePathCallback
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "image/*"
         }
         fileChooserLauncher.launch(Intent.createChooser(intent, "Select Picture"))
+        return true
     }
 
     private fun handleFileChooserResult(result: androidx.activity.result.ActivityResult) {
@@ -157,7 +154,6 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private inner class DraggableTouchListener : View.OnTouchListener {
-
         private var dX = 0f
         private var dY = 0f
         private var isClick = false
@@ -179,9 +175,7 @@ class WebViewActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     if (isClick) {
-                        // 处理点击事件
-                        Log.i("WebViewActivity", "Refresh button clicked")
-                        webView.reload()
+                        logAndReload()
                     }
                 }
             }
