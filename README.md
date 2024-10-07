@@ -31,7 +31,7 @@ Please note that the application speed is influenced by the performance of the t
 
 I'm sorry, but my current skill level does not allow me to write backdoors. I wouldn't even know how to ask an AI for help with this.
 
-# 🤗 下一步
+## 🤗 Next
 
 There are still many issues that need to be resolved:
 - [ ]  Add refresh and return to homepage functionality in WebView.
