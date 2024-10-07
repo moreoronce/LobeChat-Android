@@ -675,4 +675,7 @@
     <color name="slate_light_10">#484a4d</color>
     <color name="slate_light_11">#1b1c1d</color>
     <color name="slate_light_12">#111111</color>
+
+    <color name="transparent">#00000000</color>
+
 </resources>

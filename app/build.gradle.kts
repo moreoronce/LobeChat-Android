@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("androidx.activity:activity-ktx:1.9.2")
     implementation(libs.material)
+    implementation("androidx.browser:browser:1.3.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

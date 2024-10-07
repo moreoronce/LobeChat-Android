@@ -1,21 +1,20 @@
 package com.example.lobchat
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.webkit.ConsoleMessage
-import android.webkit.ValueCallback
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.view.MotionEvent
+import android.view.View
+import android.webkit.*
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -23,17 +22,29 @@ class WebViewActivity : AppCompatActivity() {
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
     private var isFinalUrlLoaded = false
-    // 用于标记是否通过 LobeChat 验证
     private var isLobeChatVerified = false
+    private lateinit var refreshButton: FloatingActionButton
 
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
+        refreshButton = findViewById(R.id.refreshButton)
         // 初始化 WebView
         webView = findViewById(R.id.webView)
+
         setupWebView()
+
+        // 刷新按钮的点击事件
+        refreshButton.bringToFront()
+        refreshButton.setOnClickListener {
+            Log.i("WebViewActivity", "Refresh button clicked")
+            webView.reload()
+        }
+
+        // 设置拖动事件监听器
+        refreshButton.setOnTouchListener(DraggableTouchListener())
 
         // 初始化文件选择器启动器
         fileChooserLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -49,29 +60,30 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    // 增加处理Android返回键逻辑
+    // 处理返回键
     override fun onBackPressed() {
         if (webView.canGoBack()) {
-            // 如果WebView能够返回上一页
             webView.goBack()
         } else {
-            // 否则调用super以处理默认的后退行为
             super.onBackPressed()
         }
     }
-
 
     private fun setupWebView() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.domStorageEnabled = true
-        webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        webSettings.cacheMode = WebSettings.LOAD_DEFAULT // Use default caching strategy
+
+        // Other optimizations
+        webSettings.databaseEnabled = true
+        webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+
+        webSettings.userAgentString = "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Mobile Safari/537.36"
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                // 当 URL 变化时重置 isFinalUrlLoaded 标志
                 isFinalUrlLoaded = false
-                // 返回 false 表示允许 WebView 处理请求
                 return false
             }
 
@@ -88,12 +100,10 @@ class WebViewActivity : AppCompatActivity() {
                         """.trimIndent()
                     ) { result ->
                         if (result == "true") {
-                            // 验证通过，不再继续验证
                             isLobeChatVerified = true
                             Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@WebViewActivity, "The webpage does not contain the required LobeChat text in the header.", Toast.LENGTH_LONG).show()
-                            // 如果验证失败，返回 MainActivity
                             val intent = Intent(this@WebViewActivity, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
@@ -144,5 +154,38 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun showSnackbar(message: String) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+    }
+
+    private inner class DraggableTouchListener : View.OnTouchListener {
+
+        private var dX = 0f
+        private var dY = 0f
+        private var isClick = false
+
+        override fun onTouch(view: View, event: MotionEvent): Boolean {
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    dY = view.y - event.rawY
+                    isClick = true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    view.animate()
+                        .x(event.rawX + dX)
+                        .y(event.rawY + dY)
+                        .setDuration(0)
+                        .start()
+                    isClick = false
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (isClick) {
+                        // 处理点击事件
+                        Log.i("WebViewActivity", "Refresh button clicked")
+                        webView.reload()
+                    }
+                }
+            }
+            return true
+        }
     }
 }

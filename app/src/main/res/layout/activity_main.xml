@@ -6,7 +6,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
 
         <!-- 包含两个ImageView的容器 -->
         <LinearLayout
@@ -59,7 +61,7 @@
                     android:hint="@string/enter_your_server_url"
                     android:inputType="textUri"
                     android:textColor="@color/cyan_dark_0"
-                    android:textColorHint="@color/gray_dark_8"
+                    android:textColorHint="@color/gray_dark_4"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

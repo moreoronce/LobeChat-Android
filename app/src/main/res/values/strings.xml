@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">lobchat</string>
+    <string name="app_name">LobeChat</string>
     <string name="enter_your_server_url">Enter your server URL</string>
     <string name="send">Send</string>
     <string name="app_logo">App Logo</string>

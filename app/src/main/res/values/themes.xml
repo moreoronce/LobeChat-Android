@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Lobchat" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- 使主题继承自 Theme.AppCompat.DayNight.NoActionBar，以获得系统默认的状态栏 -->
+    <style name="Theme.WebViewApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">
+            @color/purple_dark_9
+        </item>
+        <item name="android:navigationBarColor">
+            @color/design_default_color_background
+        </item>
+        <item name="android:windowTitleBackgroundStyle">
+            @color/design_default_color_background
+        </item>
+    </style>
 </resources>
