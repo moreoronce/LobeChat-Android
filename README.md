@@ -1,5 +1,5 @@
 # LobeChat Android Client
-
+![](https://github.com/moreoronce/LobeChat-Android/blob/master/app/Group%203.png)
 A third-party Android client for [LobeChat](https://lobechat.com/)!
 
 ## Supported Features
