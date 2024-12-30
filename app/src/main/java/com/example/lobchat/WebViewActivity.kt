@@ -1,6 +1,7 @@
 package com.example.lobchat
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +23,12 @@ class WebViewActivity : AppCompatActivity() {
     private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
     private var isLobeChatVerified = false
     private lateinit var refreshButton: FloatingActionButton
+
+    companion object {
+        const val SHARED_PREFS_NAME = "lobchat_prefs"
+        const val KEY_SAVED_URLS = "saved_urls"
+        const val MAX_URL_HISTORY = 5
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +84,9 @@ class WebViewActivity : AppCompatActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                validateLobeChat(view)
+                if (url != null) {
+                    validateLobeChat(view, url)
+                }
             }
         }
 
@@ -94,7 +103,7 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateLobeChat(view: WebView?) {
+    private fun validateLobeChat(view: WebView?, url: String) {
         if (!isLobeChatVerified) {
             view?.evaluateJavascript(
                 """
@@ -107,10 +116,33 @@ class WebViewActivity : AppCompatActivity() {
                 if (result == "true") {
                     isLobeChatVerified = true
                     Toast.makeText(this@WebViewActivity, "LobeChat validation passed", Toast.LENGTH_SHORT).show()
+                    saveUrlToHistory(url)
                 } else {
                     handleLobeChatValidationFailure()
                 }
             }
+        }
+    }
+
+    private fun saveUrlToHistory(url: String) {
+        val sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
+        val urls = sharedPreferences.getStringSet(KEY_SAVED_URLS, mutableSetOf())?.toMutableList() ?: mutableListOf()
+
+        // Remove the URL if it already exists
+        urls.remove(url)
+
+        // Add the URL to the beginning of the list
+        urls.add(0, url)
+
+        // Ensure the list does not exceed the maximum size
+        if (urls.size > MAX_URL_HISTORY) {
+            urls.removeAt(urls.size - 1)
+        }
+
+        // Save the updated list back to SharedPreferences
+        with(sharedPreferences.edit()) {
+            putStringSet(KEY_SAVED_URLS, urls.toSet())
+            apply()
         }
     }
 

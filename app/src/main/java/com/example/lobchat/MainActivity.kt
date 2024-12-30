@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val SHARED_PREFS_NAME = "lobchat_prefs"
         const val KEY_SAVED_URL = "saved_url"
+        private val URL_PATTERN = Regex("^(?:(http|https):\\/\\/)?((?:[\\w-]+\\.)+[a-z0-9]+|(?:\\d{1,3}\\.){3}\\d{1,3})(:\\d+)?((?:\\/[^/?#]*)+)?(\\?[^#]+)?(#.+)?$")
+        private val IP_PATTERN = Regex("^(\\d{1,3}\\.){3}\\d{1,3}(:\\d+)?$")
     }
 
 
@@ -40,18 +42,16 @@ class MainActivity : AppCompatActivity() {
         // 点击按钮后加载用户输入的 URL
         loadUrlButton.setOnClickListener {
             val url = urlInput.text.toString().trim()
-            val urlPattern = Regex("^(?:(http|https):\\/\\/)?((?:[\\w-]+\\.)+[a-z0-9]+)((?:\\/[^/?#]*)+)?(\\?[^#]+)?(#.+)?$")
-
             if (url.isNotEmpty()) {
                 // 确保 URL 包含 http 或 https
-                val formattedUrl = if (!urlPattern.matches(url)) {
-                    Toast.makeText(this, "请输入正确的网站地址", Toast.LENGTH_SHORT).show()
+                val formattedUrl = if (!URL_PATTERN.matches(url)) {
+                    Toast.makeText(this, "请输入正确的网站地址或IP", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 } else {
-                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                        "https://$url"
-                    } else {
-                        url
+                    when {
+                        IP_PATTERN.matches(url) -> "http://$url"
+                        !url.startsWith("http://") && !url.startsWith("https://") -> "https://$url"
+                        else -> url
                     }
                 }
 
@@ -71,3 +71,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
